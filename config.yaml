@@ -1,0 +1,30 @@
+baseURL: "https://vitorfalcao.com/"
+languageCode: en-us
+title: Vitor Falcao
+theme: paper-mod
+
+env: production
+
+params:
+  homeInfoParams:
+    Title: Hello, I'm Vitor Falcao
+    Content: "**SRE** @ **SumUp**"
+
+  socialIcons:
+    - name: GitHub
+      url: https://github.com/vitorfhc
+    - name: LinkedIn
+      url: https://www.linkedin.com/in/vitorfhc/
+    - name: Email
+      url: mailto:vitorfhcosta@gmail.com
+
+  ShowShareButtons: true
+  ShowReadingTime: true
+  ShowToc: true
+
+  # comments: true
+
+  editPost:
+    URL: "https://github.com/vitorfhc/blog/content"
+    Text: "Suggest Changes" # edit text
+    appendFilePath: true # to append file path to Edit link
