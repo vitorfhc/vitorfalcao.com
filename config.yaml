@@ -3,9 +3,9 @@ languageCode: en-us
 title: Vitor Falcao
 theme: paper-mod
 
-env: production
-
 params:
+  env: production
+
   homeInfoParams:
     Title: Hello, I'm Vitor Falcao
     Content: "**SRE** @ **SumUp**"
@@ -21,8 +21,6 @@ params:
   ShowShareButtons: true
   ShowReadingTime: true
   ShowToc: true
-
-  # comments: true
 
   editPost:
     URL: "https://github.com/vitorfhc/blog/content"
