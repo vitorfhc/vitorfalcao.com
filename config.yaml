@@ -6,9 +6,14 @@ theme: paper-mod
 params:
   env: production
 
-  homeInfoParams:
-    Title: Hello, I'm Vitor Falcao
-    Content: "**SRE** @ **SumUp**"
+  # homeInfoParams:
+  #   Title: Hello, I'm Vitor Falcao
+  #   Content: "**SRE** @ **SumUp**"
+
+  profileMode:
+    enabled: true
+    title: "Hello, I'm Vitor Falcao" # optional default will be site title
+    subtitle: "**SRE** @ **SumUp**"
 
   socialIcons:
     - name: GitHub
