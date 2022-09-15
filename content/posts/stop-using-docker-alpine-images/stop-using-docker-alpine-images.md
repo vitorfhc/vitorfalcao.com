@@ -7,7 +7,7 @@ Everybody loves Alpine images because they are light and have a smaller attack s
 
 ---
 
-![](../../static/stop-using-docker-alpine-images/docker_alpine_post_01.png "")
+![](./docker_alpine_post_01.png "")
 
 At SumUp, we use Kubernetes with Docker images a lot, so we are always looking for the best options when it comes to base images. Distroless images are not something new, but for some reason, I don't feel they've been adopted as much as they should.
 
@@ -46,21 +46,21 @@ Using different images in the development moves the developers away from the rea
 
 The repository [GoogleContainerTools/distroless](https://github.com/GoogleContainerTools/distroless#examples-with-docker) has an example of how to make a distroless image for a Golang tool.
 
-![](../../static/stop-using-docker-alpine-images/example.png "")
+![](./example.png "")
 
 This is a simple and easy example, mainly because Golang resulting binaries don't have runtime dependencies by default.
 
 Instead, let's suppose we need to create a distroless image to use ping binary because we will be using it in one of our services to check if a host is up. This means we need to find all runtime dependencies and [this is not an easy task](https://unrealcontainers.com/blog/identifying-application-runtime-dependencies/), but I'll keep it as simple as possible.
 
-![](../../static/stop-using-docker-alpine-images/example_02.png "")
+![](./example_02.png "")
 
 I ran the ldd command in Ubuntu and it shows us its dependencies, so I developed the following Dockerfile. Also, note that not every runtime dependency was in the ldd command output and I had to use other methods to discover them.
 
-![](../../static/stop-using-docker-alpine-images/example_03.png "")
+![](./example_03.png "")
 
 Yet, this is not the smartest solution. The Dockerfile above creates an image with 5.44MB and we could improve it by using Alpine instead of Ubuntu. If you run the same ldd command but inside an Alpine environment you also have fewer and lighter dependencies.
 
-![](../../static/stop-using-docker-alpine-images/example_04.png "")
+![](./example_04.png "")
 
 It works well and **uses only 1.43MB**, which is **around 74% less space** than the Alpine image and the image we have built using Ubuntu in the first stage.
 
