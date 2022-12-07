@@ -13,7 +13,7 @@ params:
   profileMode:
     enabled: true
     title: "Hello, I'm Vitor Falcao" # optional default will be site title
-    subtitle: "**SRE** @ **SumUp**"
+    subtitle: "**SRE** @ **Promptly Health**"
 
   socialIcons:
     - name: GitHub
