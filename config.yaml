@@ -1,7 +1,7 @@
 baseURL: "https://vitorfalcao.com/"
 languageCode: en-us
 title: Vitor Falcao
-theme: paper-mod
+theme: PaperMod
 
 params:
   env: production
@@ -18,8 +18,10 @@ params:
   socialIcons:
     - name: GitHub
       url: https://github.com/vitorfhc
-    - name: Medium
-      url: https://vitorfalcao.medium.com/
+    - name: Twitter
+      url: https://twitter/egl_falcao
+    # - name: Medium
+      # url: https://vitorfalcao.medium.com/
     - name: LinkedIn
       url: https://www.linkedin.com/in/vitorfhc/
     - name: Email
@@ -27,7 +29,7 @@ params:
 
   ShowShareButtons: true
   ShowReadingTime: true
-  ShowToc: true
+  # ShowToc: true
 
   editPost:
     URL: "https://github.com/vitorfhc/blog/content"
