@@ -7,13 +7,8 @@ params:
   env: production
 
   homeInfoParams:
-    Title: Hello, I'm Vitor Falcao
-    Content: "**SRE** and **Infosec**"
-
-  profileMode:
-    enabled: true
-    title: "Hello, I'm Vitor Falcao" # optional default will be site title
-    subtitle: "**SRE** @ **Promptly Health**"
+    Title: Vitor Falcao
+    Content: "Random thoughs on DevOps and Information Security"
 
   socialIcons:
     - name: GitHub
