@@ -7,7 +7,7 @@ Everybody loves Alpine images because they are light and have a smaller attack s
 
 ---
 
-![](./docker_alpine_post_01.png "")
+![](./stop-using-docker-alpine-images/docker_alpine_post_01.png "")
 
 At SumUp, we use Kubernetes with Docker images a lot, so we are always looking for the best options when it comes to base images. Distroless images are not something new, but for some reason, I don't feel they've been adopted as much as they should.
 

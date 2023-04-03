@@ -8,7 +8,7 @@ params:
 
   homeInfoParams:
     Title: Hello, I'm Vitor Falcao
-    Content: "**SRE** @ **SumUp**"
+    Content: "**SRE** and **Infosec**"
 
   # profileMode:
   #   enabled: true
