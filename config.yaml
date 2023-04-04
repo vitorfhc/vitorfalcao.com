@@ -3,14 +3,13 @@ languageCode: en-us
 title: Vitor Falcao
 theme: PaperMod
 
-outputs:
-  home:
-    - HTML
-    - RSS
-    - JSON # is necessary
-
 params:
   env: production
+
+  outputs:
+    home:
+      - HTML
+      - JSON # is necessary
 
   homeInfoParams:
     Title: Vitor Falcao
