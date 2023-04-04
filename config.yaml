@@ -35,7 +35,7 @@ params:
   ShowReadingTime: true
   # ShowToc: true
 
-  editPost:
-    URL: "https://github.com/vitorfhc/blog/content"
-    Text: "Suggest Changes" # edit text
-    appendFilePath: true # to append file path to Edit link
+  # editPost:
+  #   URL: "https://github.com/vitorfhc/blog/content"
+  #   Text: "Suggest Changes" # edit text
+  #   appendFilePath: true # to append file path to Edit link
