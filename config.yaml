@@ -12,8 +12,8 @@ params:
       - JSON # is necessary
 
   homeInfoParams:
-    Title: Vitor Falcao
-    Content: "Random thoughs on DevOps and Information Security"
+    Title: Writeups, notes and other stuff
+    Content: Contact me for any questions or suggestions
 
   socialIcons:
     - name: GitHub
