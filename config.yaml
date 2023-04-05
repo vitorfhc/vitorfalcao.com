@@ -3,7 +3,7 @@ languageCode: en-us
 title: Vitor Falcao
 theme: PaperMod
 
-  # googleAnalytics: G-PGXT5SXZ28
+googleAnalytics: G-PGXT5SXZ28
 
 params:
   env: production
