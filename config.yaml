@@ -3,8 +3,6 @@ languageCode: en-us
 title: Vitor Falcao
 theme: PaperMod
 
-googleAnalytics: G-PGXT5SXZ28
-
 params:
   env: production
 
@@ -16,14 +14,20 @@ params:
       - JSON # is necessary
 
   homeInfoParams:
-    Title: Writeups, notes and other stuff
-    Content: Contact me for any questions or suggestions
+    enabled: false
+    Title: Random hacking blog
+    Content:
+  
+  profileMode:
+    enabled: true
+    title: Fixing stuff
+    subtitle: I decided to take some time to fix my blog :)
 
   socialIcons:
     - name: GitHub
       url: https://github.com/vitorfhc
     - name: Twitter
-      url: https://twitter.com/egl_falcao
+      url: https://twitter.com/busf4ctor
     # - name: Medium
       # url: https://vitorfalcao.medium.com/
     - name: LinkedIn
