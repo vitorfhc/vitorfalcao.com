@@ -15,11 +15,11 @@ params:
 
   homeInfoParams:
     enabled: false
-    Title: Random hacking blog
-    Content:
+    Title: Tech Stuff & Hackings
+    Content: Just me, tinkering with tech, hacking, and whatever else I find cool
   
   profileMode:
-    enabled: true
+    enabled: false
     title: Fixing stuff
     subtitle: I decided to take some time to fix my blog :)
 
@@ -37,7 +37,8 @@ params:
 
   ShowShareButtons: true
   ShowReadingTime: true
-  # ShowToc: true
+  ShowToc: true
+  # UseHugoToc: true
 
   # editPost:
   #   URL: "https://github.com/vitorfhc/blog/content"
