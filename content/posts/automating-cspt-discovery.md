@@ -1,6 +1,6 @@
 ---
 title: "Automating Client-Side Path Traversals Discovery"
-date: 2024-10-03T12:16:22-03:00
+date: 2024-10-03T00:00:00-03:00
 draft: false
 ---
 
@@ -16,13 +16,13 @@ Let's start with the example of a profile page. The web server may respond with 
 
 So, a user accesses `example.com/profile?id=10`, and the first thing we typically test for is IDOR vulnerabilities, right? We try changing the `id` parameter to other integers, maybe negative values, decimals, strings, null, etc. However, we often overlook that when we accessed this URL, our browser made another request to `example.com/api/users/10`. If we modify the `id` to something like `hello`, the browser will request `example.com/api/users/hello`. So, what can we do with that?
 
-![image](https://hackmd.io/_uploads/BJHyOiuR0.png)
+![image](/img/automating-cspt-discovery/cspt101_01.png)
 
 First things first, remember this is happening on the client side, so it's not an SSRF. This means the API endpoint is being requested by the user's browser, not the backend servers. What impact can we achieve by making a user initiate a GET request to something like `example.com/api/users/hello`? Probably not much, right? Let’s take it a step further.
 
 What if we change the `id` to `id=../../hello`? If you see your browser requesting `example.com/hello`, it’s time to celebrate because you've found a very useful gadget! You've used a path traversal to go from `/api/users/hello` to `/hello`, which means you can now make your victim perform a GET request to any path on that domain you like.
 
-![image](https://hackmd.io/_uploads/S1_lujOAC.png)
+![image](/img/automating-cspt-discovery/cspt101_02.png)
 
 If you’re not sure why this is significant yet, don’t worry—this is just the basics to help you understand the concept: Client-Side (the user's browser is making the request) Path Traversal (using patterns like `../` gives us more control).
 
@@ -48,7 +48,7 @@ That’s where Open Redirects come into play. They’re usually considered low p
 
 Let's suppose we have an open redirect on `/redirect?url=domain.com`. We want to use it to control the response for the request triggered when the user loads the profile page. We can change our payload to `/profile?id=../../redirect?url=xss.vitorfalcao.com`. However, don't forget to URL-encode the `id` value: `/profile?id=../../redirect%3Furl%3Dxss.vitorfalcao.com`. Now, the response is controlled by us because the request will follow the redirect and load the content we control on our domain (`xss.vitorfalcao.com` in this case).
 
-![image](https://hackmd.io/_uploads/H1zsAaYRC.png)
+![image](/img/automating-cspt-discovery/openredirects_01.png)
 
 I hope this was enough for you to understand the basics. If it wasn't, don't worry; it's a bit of a strange gadget, and you might need to read more examples to fully grasp it. Here are some good resources for further reading:
 
@@ -83,7 +83,7 @@ By the way, open redirects aren't the only useful bug to chain with a CSPT. You 
 
 The Chrome extension, which I named Gecko, can be found on [vitorfhc/gecko](https://github.com/vitorfhc/gecko) on GitHub. The `README` (written by ChatGPT because I was lazy) contains instructions for installing it.
 
-![image](https://hackmd.io/_uploads/B1HnTRtRC.png)
+![image](/img/automating-cspt-discovery/gecko_01.png)
 
 It's been a while since I worked on a project like this, so I decided to go all-in. I developed a UI, used TypeScript, and React. I had to learn about webpack and a few other things, which, believe it or not, helped me land a bug in a program because I made a misconfiguration and wondered if I could spot it in any other bug bounty programs.
 
