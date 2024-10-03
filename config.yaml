@@ -39,8 +39,7 @@ params:
   ShowReadingTime: true
   ShowToc: true
   # UseHugoToc: true
-
-  # editPost:
-  #   URL: "https://github.com/vitorfhc/blog/content"
-  #   Text: "Suggest Changes" # edit text
-  #   appendFilePath: true # to append file path to Edit link
+  
+  analytics:
+    umami:
+      SiteVerificationTag: 01376e6b-8a97-4ea8-9c64-6da5ec1e2b22
