@@ -15,7 +15,7 @@ params:
 
   homeInfoParams:
     enabled: false
-    Title: Tech Stuff & Hackings
+    Title: Hackings & Tech Stuff
     Content: Just me, tinkering with tech, hacking, and whatever else I find cool
   
   profileMode:
