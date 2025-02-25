@@ -8,7 +8,7 @@ draft: false
 
 I've always wanted to hack on one of those targets that top hackers were going after—not just because they pay well, but because they usually have fair triaging and amazing scopes. But how? Finding bugs on private targets is already challenging enough—now imagine a target that has the best eyes on it 24/7, constantly searching for new gadgets and vulnerabilities.
 
-The target for this post had already been through some LHEs (Live Hacking Events), which made me even more intimidated. Was I just wasting my time here? Turns out, I wasn’t. There’s always something to explore, and no time spent hacking is ever truly wasted—you’re always learning. And by the way, hacking alongside someone like xssdoctor is a guaranteed way to pick up some crazy client-side quirks to explore.
+The target for this post had already been through some LHEs (Live Hacking Events), which made me even more intimidated. Was I just wasting my time here? Turns out, I wasn’t. There’s always something to explore, and no time spent hacking is ever truly wasted—you’re always learning. And by the way, hacking alongside someone like [xssdoctor](https://x.com/xssdoctor) is a guaranteed way to pick up some crazy client-side quirks to explore.
 
 This won't be a short post—I want to dive deep into the details, sharing as much as my blog-writing time allows. We'll begin with a simple CSPT gadget that led us to a self-XSS, which we later managed to escalate into a full XSS. I'll also cover our battle against COOP headers that prevented us from achieving an account takeover on this target.
 
