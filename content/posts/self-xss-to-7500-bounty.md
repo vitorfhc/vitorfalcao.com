@@ -8,9 +8,9 @@ draft: true
 
 I've always wanted to hack on one of those targets that top hackers were going after—not just because they pay well, but because they usually have fair triaging and amazing scopes. But how? Finding bugs on private targets is already challenging enough—now imagine a target that has the best eyes on it 24/7, constantly searching for new gadgets and vulnerabilities.
 
-The target for this post had already been through some LHEs (Live Hacking Events), which made me even more intimidated. Was I just wasting my time here? Turns out, I wasn’t. There’s always something to explore, and no time spent hacking is ever truly wasted—you’re always learning. And by the way, hacking alongside someone like [xssdoctor](https://x.com/xssdoctor) is a guaranteed way to pick up some crazy client-side quirks to explore.
+The target had already been through multiple LHEs (Live Hacking Events), which made it even more intimidated. Was I just wasting my time here? Turns out, I wasn’t. There’s always something to explore, and no time spent hacking is ever truly wasted—you’re always learning. And by the way, hacking alongside expert hunters like [xssdoctor](https://x.com/xssdoctor) is a guaranteed way to pick up some crazy client-side quirks to explore.
 
-This won't be a short post—I want to dive deep into the details, sharing as much as my blog-writing time allows. We'll begin with a simple CSPT gadget that led us to a self-XSS, which we later managed to escalate into a full XSS. I'll also cover our battle against COOP headers that prevented us from achieving an account takeover on this target.
+This won't be a short post—I want to dive deep into the details, sharing as much as my blog-writing time allows. The chain begins with a simple CSPT gadget that led us to a self-XSS, which we later managed to escalate into a full XSS.
 
 ![image.png](/img/self-xss-to-7500-bounty/image.png)
 
@@ -28,19 +28,19 @@ With client-side rendering, it works differently. When requesting the `/profile`
 
 ![SSR-2025-02-25-111413.png](/img/self-xss-to-7500-bounty/CSR-2025-02-25-111350.png)
 
-As shown above, the user agent (Chrome, Firefox, Safari, etc.) now handles fetching the user's data from the API. While we can control our own user agents, what's interesting is whether we can trick a victim's user agent into requesting any path we want. For instance, could we make it request `https://vitorfalcao.com/malicious` instead of `https://example.com/api/profiles/[user]`? The answer is yes—when we can modify the path (from `/api/profiles/[user]` to any arbitrary path), we call this a Client-Side Path Traversal (CSPT for short).
+As shown above, the browser (Chrome, Firefox, Safari, etc.) now handles fetching the user's data from the API. While we can control our own browser, what's interesting is whether we can trick a victim's browser into requesting any path we want. For instance, could we make it request `https://vitorfalcao.com/malicious` instead of `https://example.com/api/profiles/[user]`? The answer is yes—when we can modify the path (from `/api/profiles/[user]` to any arbitrary path), we call this a Client-Side Path Traversal.
 
 ![image.png](/img/self-xss-to-7500-bounty/image%201.png)
 
-This target had numerous CSPTs scattered throughout the application. In our case, when accessing `/categories/[number]`, it would request the same-origin path `/api/v2/categories/[number].json`. What made this interesting was that the `[number].json` file contained several fields with HTML values that were passed directly into `innerHTML` calls to render content on the page—a typical CSR behavior we could exploit. 
+This target had numerous CSPTs scattered throughout the application. In our case, when accessing `/categories/[number]`, the browser would request the same-origin path `/api/v2/categories/[number].json`. What made this interesting was that the `[number].json` file contained several fields with HTML values that were passed directly into `innerHTML` calls to render content on the page—a typical CSR behavior we could exploit.
 
 The `[number]` parameter from the URL path was reflected in the fetch request path, allowing us to control which resource was fetched. By sending a specially crafted URL to a victim, we could make their browser fetch any page we wanted. For instance, using `/categories/..%2Fbusfactor` would make the browser request `/api/v2/busfactor.json`, effectively removing `categories` from the URL. This meant that if we could control any JSON file under `/api/v2`, we could achieve XSS.
 
-An open redirect would have been another viable option. With an open redirect at `/api/v2/redirect?url=[redirect_url]`, we could craft a payload like `/categories/..%2Fredirect%3Furl%3Dmalicious.com` (which decodes to `/categories/../redirect?url=malicious.com`). This would trick the victim's browser into requesting `malicious.com`, where we could host our own JSON file containing XSS payloads. Unfortunately, despite hours of searching, we couldn't find an open redirect.
+An open redirect would have been another viable option. I love when programs don't pay bounties for open redirects—it usually means I'll find lots of them. This makes it easier to escalate other vulnerabilities into XSS or Account Takeover exploits.
 
 ![image.png](/img/self-xss-to-7500-bounty/image%202.png)
 
-I love when programs don't pay bounties for open redirects—it usually means I'll find lots of them. This makes it easier to escalate other vulnerabilities into XSS or Account Takeover exploits. Why wouldn't a company pay for open redirects when they can be chained into higher-paying exploits? The answer isn't simple—each company has its own perspective on security threats. Budget constraints play a role too. Plus, beginners often flood security programs with low-impact reports, making it harder for companies to focus on more critical issues.
+With an open redirect at `/api/v2/redirect?url=[redirect_url]`, we could craft a payload like `/categories/..%2Fredirect%3Furl%3Dmalicious.com` (which decodes to `/categories/../redirect?url=malicious.com`). This would trick the victim's browser into requesting `malicious.com`, where we could host our own JSON file containing XSS payloads. Unfortunately, despite hours of searching, we couldn't find an open redirect.
 
 ---
 
@@ -48,25 +48,25 @@ I love when programs don't pay bounties for open redirects—it usually means I'
 
 Pro memberships are amazing, and you should always look for them. By Pro membership, I mean any of those subscription plans—monthly or annual—that unlocks premium features such as product selling capabilities, unlimited posting, and unrestricted content access.
 
-I understand why some hunters hesitate to pay for a Pro membership on a target website. There's no guarantee you'll find bugs to pay your investment. However, I'm rarely intimidated by paywalls nowadays. I've learned that paying for access to more features—which means more attack surface—consistently yields at least high-severity bugs. These usually pay 50 times more than the subscription cost. Still, I understand if this strategy isn't for everyone—bug bounty hunting is inherently speculative work.
+Some hunters hesitate to pay for a Pro membership on a target website. There's no guarantee you'll find bugs to pay your investment. However, I'm rarely intimidated by paywalls nowadays. I've learned that paying for access to more features—which means more attack surface—consistently yields at least high-severity bugs. These usually pay 50 times the subscription cost. Still, I understand if this strategy isn't for everyone—bug bounty hunting is inherently speculative work.
 
 Unfortunately, the files weren't being uploaded under the `/api/` path as we hoped—instead, they went to an S3 bucket. I felt doomed, thinking we'd never exploit this target. We'd already spent days hunting for gadgets to complete this chain.
 
 ![FileUpload-2025-02-25-115126.png](/img/self-xss-to-7500-bounty/FileUpload-2025-02-25-115126.png)
 
-Then we discovered something. Actually, xssdoctor found it (though I'm still not sure how—maybe through parameter brute-forcing?). The endpoint `/api/marketplace/files/[file_number]` returns a 200 response with the S3 URL, but adding `?redirect=true` triggers a 302 redirect to the file URL! This was exactly what we needed to complete our chain, weaponize the CSPT, and achieve XSS.
+Then, xssdoctor discovered something amazing (though I'm still not sure how—maybe through parameter brute-forcing?). The endpoint `/api/marketplace/files/[file_number]` returns a 200 response with the S3 URL, but adding `?redirect=true` triggers a 302 redirect to the file URL! This was exactly what we needed to complete our chain, weaponize the CSPT, and achieve XSS.
+
+> After reading this post's draft, xssdoctor mentioned he found this by analyzing jswzl—he discovered it while reading through the minified JavaScript.
 
 ![image.png](/img/self-xss-to-7500-bounty/image%203.png)
 
-Let's take a break to understand our thought process at this point and the vulnerability chain we were developing. These would be the reproduction steps for the bug:
+Let's take a break to understand the vulnerability chain we were developing. These would be the reproduction steps for the bug:
 
 1. Upload a JSON file containing malicious XSS payload values
 2. Create a CSPT payload that uses path traversal to make the user's browser request our malicious JSON
 3. Send the link to the user—when clicked, their browser fetches the malicious JSON, which injects and executes the XSS payload
 
 For example, if a file is uploaded to `/api/marketplace/files/1234`, the CSPT payload would be `/categories/..%2Fmarketplace%2Ffiles%2F1234%3Fredirect%3Dtrue%23`. Amazing, right? Yes, but it doesn’t work.
-
-> After reading this post's draft, xssdoctor mentioned he found this by analyzing jswzl—he discovered it while reading through the minified JavaScript.
 
 ---
 
@@ -90,7 +90,7 @@ To solve this, we needed to avoid clicking the download button and instead let t
 
 # Self-XSS
 
-A smart reader will notice that the file we upload is a digital product for sale, meaning customers can't access it through `/api/marketplace/files/1234` without proper permissions—which they only get after purchasing. Since buying the product requires significant user interaction, the bug's severity would be reduced to low. Without finding any IDOR vulnerabilities or similar bypasses for this restriction, we were left with what amounts to a self-XSS that has no real security impact.
+You may have noticed that the file we upload is a digital product for sale, meaning customers can't access it through `/api/marketplace/files/1234` without proper permissions—which they only get after purchasing. Since buying the product requires significant user interaction, the bug's severity would be reduced to low. Without finding any IDOR vulnerabilities or similar bypasses for this restriction, we were left with what amounts to a self-XSS that has no real security impact.
 
 ![image.png](/img/self-xss-to-7500-bounty/image%205.png)
 
