@@ -4,8 +4,6 @@ date: 2025-02-25T00:00:00-03:00
 draft: false
 ---
 
-# Prologue
-
 I've always wanted to hack on one of those targets that top hackers were going after—not just because they pay well, but because they usually have fair triaging and amazing scopes. But how? Finding bugs on private targets is already challenging enough—now imagine a target that has the best eyes on it 24/7, constantly searching for new gadgets and vulnerabilities.
 
 The target had already been through multiple LHEs (Live Hacking Events), which made it even more intimidated. Was I just wasting my time here? Turns out, I wasn’t. There’s always something to explore, and no time spent hacking is ever truly wasted—you’re always learning. And by the way, hacking alongside expert hunters like [xssdoctor](https://x.com/xssdoctor) is a guaranteed way to pick up some crazy client-side quirks to explore.
