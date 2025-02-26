@@ -55,7 +55,6 @@ The API generates [S3 pre-signed URLs](https://docs.aws.amazon.com/AmazonS3/late
 Then, xssdoctor discovered something amazing (though I'm still not sure how—maybe through parameter brute-forcing?). The endpoint `/api/marketplace/files/[file_number]` returns a 200 response with the S3 URL, but adding `?redirect=true` triggers a 302 redirect to the file URL! This was exactly what we needed to complete our chain, weaponize the CSPT, and achieve XSS.
 
 > After reading this post's draft, xssdoctor mentioned he found this by analyzing jswzl—he discovered it while reading through the minified JavaScript.
-> 
 
 ![image 3.png](/img/hacking-high-profile-targets/image_3.png)
 
@@ -83,8 +82,7 @@ To solve this, we needed to avoid clicking the download button and instead let t
 
 ![image 4.png](/img/hacking-high-profile-targets/image_4.png)
 
-> For a deeper understanding of CORS and its implications, you can explore the documentation on MDN Web Docs.
-> 
+> For a deeper understanding of CORS and its implications, you can explore the documentation on [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).
 
 ---
 
@@ -120,8 +118,7 @@ Finding a gadget that could set cookies in the victim's browser would have been 
 
 # CSRFs
 
-> If you're not familiar with Cross-Site Request Forgery (CSRF), I highly recommend reading PortSwigger's CSRF post.
-> 
+> If you're not familiar with Cross-Site Request Forgery (CSRF), I highly recommend reading [PortSwigger's CSRF post](https://portswigger.net/web-security/csrf).
 
 Bug hunters often overlook login and logout CSRF vulnerabilities. In fact, we tend to ignore many issues that could be valuable for creating exploit chains. While these vulnerabilities might seem harmless on their own, combining them with other bugs can lead to powerful exploits.
 
@@ -129,12 +126,7 @@ Login CSRF with OAuth works differently from traditional CSRF. With OAuth, click
 
 The main idea behind a Login CSRF that uses OAuth is intercepting the final redirect containing the code parameter and preventing the website from consuming it. Since this code becomes invalid after its first use, you can then force the victim to open the callback link, making them log into your account.
 
-<aside>
-💡
-
-OAuth is not the main focus of this post, and I know it can be complex to grasp. Don't worry if the last two paragraphs were confusing—instead, check out [PortSwigger's content on OAuth vulnerabilities](https://portswigger.net/web-security/oauth) for a better understanding.
-
-</aside>
+> OAuth is not the main focus of this post, and I know it can be complex to grasp. Don't worry if the last two paragraphs were confusing—instead, check out [PortSwigger's content on OAuth vulnerabilities](https://portswigger.net/web-security/oauth) for a better understanding.
 
 Fortunately, the target has a CSRF vulnerability in its OAuth login mechanism. This allows us to force users to log into our account—the same account where we've planted our self-XSS payload. Here's how our exploit chain would work:
 
