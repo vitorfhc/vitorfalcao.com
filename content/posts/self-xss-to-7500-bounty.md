@@ -1,7 +1,7 @@
 ---
 title: "From Self-XSS to a $7,500 Bounty: Deep Dive into Client-Side Hacking"
 date: 2025-02-25T00:00:00-03:00
-draft: false
+draft: true
 ---
 
 # Prologue
