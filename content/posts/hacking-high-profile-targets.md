@@ -1,6 +1,6 @@
 ---
 title: "Hacking High-Profile Bug Bounty Targets: Deep Dive into a Client-Side Chain"
-date: 2025-02-25T00:00:00-03:00
+date: 2025-02-26T00:00:00-03:00
 draft: false
 ---
 
