@@ -124,7 +124,7 @@ Bug hunters often overlook login and logout CSRF vulnerabilities. In fact, we te
 
 Login CSRF with OAuth works differently from traditional CSRF. With OAuth, clicking "Login with Google" redirects you to Google's authorization server. Then Google redirects you back to the starting website, including a code or token in the URL parameters. The website uses this code to prove to Google that you authorized it to access your Google data. For example, after you log into your Google account, it may redirect you back to [`target.com/callback?code=xyz`](http://target.com/callback?code=xyz). The website then uses this `code` to request your data from Google's APIs, fetching details like your name and email.
 
-The main idea behind a Login CSRF that uses OAuth is intercepting the final redirect containing the code parameter and preventing the website from consuming it. Since this code becomes invalid after its first use, you can then force the victim to open the callback link, making them log into your account.
+The main idea behind a Login CSRF that uses OAuth is intercepting the final redirect containing the code parameter and preventing the website from consuming it. You can then force the victim to open the callback link, making them log into your account.
 
 > OAuth is not the main focus of this post, and I know it can be complex to grasp. Don't worry if the last two paragraphs were confusing—instead, check out [PortSwigger's content on OAuth vulnerabilities](https://portswigger.net/web-security/oauth) for a better understanding.
 
