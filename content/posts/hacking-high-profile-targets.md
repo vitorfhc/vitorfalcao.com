@@ -90,7 +90,7 @@ To solve this, we needed to avoid clicking the download button and instead let t
 
 You may have noticed that the file we upload is a digital product for sale, meaning users can't access it through `/api/marketplace/files/1234` without proper permissions—which they only get after purchasing. Since buying the product requires significant user interaction, the bug's severity would be reduced to low. Without finding any IDOR vulnerabilities or similar bypasses for this restriction, we were left with what amounts to a self-XSS that has no real security impact.
 
-Pretty wild that nobody else caught this yet - we'd been asking around about gadgets for this target but came up empty. After putting in all those hours finding gadgets, we figured we deserved grab some drinks. We were almost certain this finding wouldn't be marked as a duplicate. The work could wait while we cleared our heads—after that, we'd get back to crushing the target.
+Pretty wild that nobody else caught this yet - we'd been asking around about gadgets for this target but came up empty. After putting in all those hours finding gadgets, we figured we deserved to grab some drinks. We were almost certain this finding wouldn't be marked as a duplicate. The work could wait while we cleared our heads—after that, we'd get back to crushing the target.
 
 ![image 5.png](/img/hacking-high-profile-targets/image_5.png)
 
