@@ -1,7 +1,7 @@
 ---
 title: "Beyond the Confetti: Hacking Intigriti Challenge 0525 with DOM Clobbering and a Single Slash"
-date: 2025-05-01T00:00:00-03:00
-draft: true
+date: 2025-05-16T00:00:00-03:00
+draft: false
 ---
 
 # Introduction
