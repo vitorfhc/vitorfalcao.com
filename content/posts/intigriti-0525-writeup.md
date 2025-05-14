@@ -1,6 +1,6 @@
 ---
 title: "Beyond the Confetti: Hacking Intigriti Challenge 0525 with DOM Clobbering and a Single Slash"
-date: 2025-05-16T00:00:00-03:00
+date: 2025-05-01T00:00:00-03:00
 draft: true
 ---
 
@@ -8,7 +8,7 @@ draft: true
 
 I was all set for a super productive day at my favorite coffee spot, buzzing with anticipation. My game plan was simple: Pomodoro sessions, knocking out tasks like a machine, and chasing that sweet dopamine hit of accomplishment. You know the vibe. Then, I made a classic mistake. I opened Discord and spotted [Johan](https://bsky.app/profile/joaxcar.bsky.social)'s announcement: his new Intigriti challenge was launching in an hour.
 
-![](https://hackmd.io/_uploads/ryW7qQZbee.png)
+![](/img/intigriti-0525-writeup/meme.png)
 
 Now, if you're familiar with Johan, you know he has a knack for finding incredible bugs. It was a no-brainer that this challenge would be a goldmine for learning. So, I ditched my meticulously planned day, ready to dive in, thinking, "Two, maybe three hours, tops." Boy, was I wrong. It took me over a day of intense head-scratching and methodically testing every hypothesis I had.
 
@@ -16,7 +16,7 @@ Now, if you're familiar with Johan, you know he has a knack for finding incredib
 
 The challenge starts with a simple page. You type in a name, and it gets reflected. A second later, confetti rains down.
 
-![](https://hackmd.io/_uploads/HJdvqmbWex.png)
+![](/img/intigriti-0525-writeup/homepage.png)
 
 Let's dissect the page's JavaScript. The main script, `script.js`, is imported by the HTML and performs the following steps:
 
@@ -27,8 +27,6 @@ Let's dissect the page's JavaScript. The main script, `script.js`, is imported b
 1. The `/message` responds with `Hello, <strong>[value reflected]</strong>! Welcome to the challenge.`
 1. The response from this request is then passed through `DOMPurify.sanitize()`, and the sanitized output is injected into the page using `innerHTML`.
 1. Finally, it calls `requestIdleCallback`, registering `Script` as the callback function.
-
-![Editor _ Mermaid Chart-2025-05-14-143619](https://hackmd.io/_uploads/rkiu5Xf-xg.png)
 
 ```js
 (function(){
@@ -73,7 +71,7 @@ messageDiv.innerHTML = DOMPurify.sanitize(data);
 
 If you're not intimately familiar with DOMPurify, I can't recommend Kevin Mizu's post, "[Exploring the DOMPurify library: Hunting for Misconfigurations (2/2)](https://mizu.re/post/exploring-the-dompurify-library-hunting-for-misconfigurations)," enough. Johan himself declared it "the de facto standard for DOMPurify hacking."
 
-![](https://hackmd.io/_uploads/By7WsQWWlx.png)
+![](/img/intigriti-0525-writeup/discord.png)
 
 I noticed many players trying to bypass DOMPurify using mXSS (Mutation XSS), inspired by resources like "[Bypassing Your Defense: Mutation XSS](https://aszx87410.github.io/beyond-xss/en/ch2/mutation-xss/)." However, the challenge used the latest version of DOMPurify. Finding a bypass for the latest version would likely mean discovering a zero-day vulnerability, and I doubted Johan would base a challenge on something *that* demanding.
 
@@ -95,7 +93,7 @@ At the end of the main script, the line `requestIdleCallback(addDynamicScript)` 
 
 Reading further into resources like "[Using requestIdleCallback](https://developer.chrome.com/blog/using-requestidlecallback)" helped solidify my understanding. The main takeaway is that the callback function registered with `requestIdleCallback` only runs when the browser's main JavaScript thread is idle. This makes it great for running non-critical code that can wait and shouldn't mess with the page's primary functions.
 
-![image](https://hackmd.io/_uploads/SJy9o7zZge.png)
+![](/img/intigriti-0525-writeup/docimg.png)
 
 In this challenge, the `addDynamicScript` function is queued:
 
@@ -159,7 +157,7 @@ Well, not so fast. Did you really think it would be that easy? When we use this 
 
 Timing is everything. When the payload is sent, the JavaScript makes a request to `/message`, which takes approximately three seconds to resolve. During this wait, the JavaScript thread is considered idle, causing `addDynamicScript` to execute before the DOM Clobbering payload is added to the page. The next challenge is to either expedite the `/message` request so it doesn't trigger the idle state prematurely, or to delay the idle callback until the HTML injection has been loaded.
 
-![Editor _ Mermaid Chart-2025-05-14-145615](https://hackmd.io/_uploads/rJHmkEG-gx.png)
+![](/img/intigriti-0525-writeup/timeline.png)
 
 ## Caching the Response
 
@@ -373,7 +371,7 @@ Perfect! The same URL string yields two different origins based on how `new URL(
 </html>
 ```
 
-![image](https://hackmd.io/_uploads/ryHNFDzbgl.png)
+![](/img/intigriti-0525-writeup/alert.png)
 
 # XSS Achieved!
 
