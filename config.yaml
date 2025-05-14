@@ -16,8 +16,8 @@ params:
   homeInfoParams:
     enabled: false
     Title: Hackings & Tech Stuff
-    Content: Just me, tinkering with tech, hacking, and whatever else I find cool
-  
+    Content: Tinkering with tech, hacking, and whatever else I find cool
+
   profileMode:
     enabled: false
     title: Fixing stuff
@@ -29,7 +29,7 @@ params:
     - name: Twitter
       url: https://twitter.com/busf4ctor
     # - name: Medium
-      # url: https://vitorfalcao.medium.com/
+    # url: https://vitorfalcao.medium.com/
     - name: LinkedIn
       url: https://www.linkedin.com/in/vitorfhc/
     - name: Email
@@ -39,7 +39,7 @@ params:
   ShowReadingTime: true
   ShowToc: true
   # UseHugoToc: true
-  
+
   analytics:
     umami:
       SiteVerificationTag: 01376e6b-8a97-4ea8-9c64-6da5ec1e2b22
