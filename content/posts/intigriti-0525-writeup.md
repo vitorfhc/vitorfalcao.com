@@ -113,7 +113,7 @@ function addDynamicScript() {
 ```
 
 
-The `addDynamicScript` function dynamically loads a script. It first tries to get the script's source URL from `window.CONFIG_SRC?.dataset["url"]`. If `window.CONFIG_SRC` doesn't exist or is `null` (or if `dataset["url"]` is missing), it defaults to loading `/confetti.js` from the current origin. This is the culprit behind the relentless confetti\! More importantly, this is a fantastic sink for Cross-Site Scripting (XSS) if we can control `window.CONFIG_SRC?.dataset["url"]` and make it load an arbitrary script.
+The `addDynamicScript` function dynamically loads a script. It first tries to get the script's source URL from `window.CONFIG_SRC?.dataset["url"]`. If `window.CONFIG_SRC` doesn't exist or is `null` (or if `dataset["url"]` is missing), it defaults to loading `/confetti.js` from the current origin. This is the culprit behind the relentless confetti! More importantly, this is a fantastic sink for Cross-Site Scripting (XSS) if we can control `window.CONFIG_SRC?.dataset["url"]` and make it load an arbitrary script.
 
 This is where DOM Clobbering enters the scene. If you're unfamiliar with how DOM Clobbering works, now's a good time to pause and read the excellent article "[Can HTML affect JavaScript? Introduction to DOM clobbering](https://aszx87410.github.io/beyond-xss/en/ch3/dom-clobbering/)." It's a fascinating technique to escalate HTML injection into XSS. For a broader look at HTML injection escalation paths, I also recommend checking out [Jorian's GitBook](https://book.jorianwoltjer.com/web/client-side/cross-site-scripting-xss/html-injection) on HTML Injection..
 
@@ -286,6 +286,28 @@ Here’s how that `iframe`-based approach looks:
 ```
 
 > By the way, this is not the intended solution!
+
+# The Rabbit Hole
+
+In the last section, I talked about how I thought the back/forward cache was the secret sauce making all that magic happen with the DOM Clobbering. Well, plot twist: it turns out I was mistaken.
+
+I shared my solution and reasoning with Jorian ([@J0R1AN](https://x.com/J0R1AN)) for a discussion, and he pointed out that bfcache wasn't involved at all.
+
+![](/img/intigriti-0525-writeup/jorian.png)
+
+Sure enough, if you navigate to Chrome DevTools and check the "Back/forward cache" section (under the Application tab), you'll see that the page was indeed flagged as "Not served from back/forward cache."
+
+![](/img/intigriti-0525-writeup/bfcache.png)
+
+So, what was the real trick? It seems my method forced the `/message` response into the **disk cache**. When the browser navigated back, the page reloaded (no bfcache involved!). This time, however, the `/message` request was served from the disk.
+
+![](/img/intigriti-0525-writeup/diskcache.png)
+
+This ultra-fast response from the disk cache is key. It meant the main JavaScript thread didn't have a chance to go idle *before* our DOM Clobbering payload was in place. Consequently, when `requestIdleCallback(addDynamicScript)` finally executed, our clobbered `window.CONFIG_SRC` was ready and waiting! This explains why the exploit worked reliably despite not using bfcache.
+
+I've definitely put this on my list for a deeper dive to fully understand the mechanics of this method. This behavior could be an amazing gadget for DOM Clobbering. Many times, global objects or configurations (like our `window.CONFIG_SRC`) are checked by scripts *before* an HTML injection (and thus clobbering) has had a chance to run. You see this pattern often with analytics scripts, single-page application frameworks (React, Vue, etc.), and other dynamically loaded resources.
+
+If this kind of timing manipulation and caching Voodoo sounds interesting and you'd like to collaborate on exploring it further, please reach out!
 
 # Bypassing the `safeURL`
 
