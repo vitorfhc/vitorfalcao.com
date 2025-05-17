@@ -115,7 +115,7 @@ function addDynamicScript() {
 
 The `addDynamicScript` function dynamically loads a script. It first tries to get the script's source URL from `window.CONFIG_SRC?.dataset["url"]`. If `window.CONFIG_SRC` doesn't exist or is `null` (or if `dataset["url"]` is missing), it defaults to loading `/confetti.js` from the current origin. This is the culprit behind the relentless confetti! More importantly, this is a fantastic sink for Cross-Site Scripting (XSS) if we can control `window.CONFIG_SRC?.dataset["url"]` and make it load an arbitrary script.
 
-This is where DOM Clobbering enters the scene. If you're unfamiliar with how DOM Clobbering works, now's a good time to pause and read the excellent article "[Can HTML affect JavaScript? Introduction to DOM clobbering](https://aszx87410.github.io/beyond-xss/en/ch3/dom-clobbering/)." It's a fascinating technique to escalate HTML injection into XSS. For a broader look at HTML injection escalation paths, I also recommend checking out [Jorian's GitBook](https://book.jorianwoltjer.com/web/client-side/cross-site-scripting-xss/html-injection) on HTML Injection..
+This is where DOM Clobbering enters the scene. If you're unfamiliar with how DOM Clobbering works, now's a good time to pause and read the excellent article "[Can HTML affect JavaScript? Introduction to DOM clobbering](https://aszx87410.github.io/beyond-xss/en/ch3/dom-clobbering/)." It's a fascinating technique to escalate HTML injection into XSS. For a broader look at HTML injection escalation paths, I also recommend checking out [Jorian's GitBook](https://book.jorianwoltjer.com/web/client-side/cross-site-scripting-xss/html-injection) on HTML Injection.
 
 # DOM Clobbering the `window`
 
