@@ -159,7 +159,7 @@ Well, not so fast. Did you really think it would be that easy? When we use this 
 
 # Timing is Everything
 
-Timing is everything. When the payload is sent, the JavaScript makes a request to `/message`, which takes approximately three seconds to resolve. During this wait, the JavaScript thread is considered idle, causing `addDynamicScript` to execute before the DOM Clobbering payload is added to the page. The next challenge is to either expedite the `/message` request so it doesn't trigger the idle state prematurely, or to delay the idle callback until the HTML injection has been loaded.
+When the payload is sent, the JavaScript makes a request to `/message`, which takes approximately three seconds to resolve. During this wait, the JavaScript thread is considered idle, causing `addDynamicScript` to execute before the DOM Clobbering payload is added to the page. The next challenge is to either expedite the `/message` request so it doesn't trigger the idle state prematurely, or to delay the idle callback until the HTML injection has been loaded.
 
 ![](/img/intigriti-0525-writeup/timeline.png)
 
