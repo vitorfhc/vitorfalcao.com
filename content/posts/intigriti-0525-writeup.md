@@ -265,6 +265,8 @@ To experiment with this bfcache idea, I created a simple test page. The code bel
 
 It works! And even better, this technique performs beautifully on both Chrome and Firefox, without depending on race conditions or outright sorcery. We now have a rock-solid way of triggering our DOM Clobbering.
 
+> By the way, this is not the intended solution!
+
 This manual, button-click approach was useful for testing, but a more practical exploit wouldn't rely on user interaction. After I shared my `window.open` PoC, [@stealthcopter](https://x.com/stealthcopter) pointed out it could be automated using an `iframe`. This way, the entire process of loading the challenge page with the payload, waiting, and then triggering the back navigation (via an intermediate redirect of the `iframe`'s source to `back.html`) can happen silently in the background.
 
 Here’s how that `iframe`-based approach looks:
@@ -284,8 +286,6 @@ Here’s how that `iframe`-based approach looks:
 
 </html>
 ```
-
-> By the way, this is not the intended solution!
 
 # The Rabbit Hole
 
