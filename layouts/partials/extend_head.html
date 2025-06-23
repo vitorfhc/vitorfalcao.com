@@ -1,0 +1,13 @@
+{{- /* Head custom content area start */ -}}
+{{- /* Insert any custom code (web-analytics, resources, etc.) - it will appear in the
+
+<head></head> section of every page. */ -}}
+{{- /* Can be overwritten by partial with the same name in the global layouts. */ -}}
+
+{{- /* Umami Analytics */ -}}
+{{- if site.Params.analytics.umami.id -}}
+<script async defer data-website-id="{{ site.Params.analytics.umami.id }}"
+    src="{{ site.Params.analytics.umami.script_url | default " https://cloud.umami.is/script.js" }}"></script>
+{{- end -}}
+
+{{- /* Head custom content area end */ -}}

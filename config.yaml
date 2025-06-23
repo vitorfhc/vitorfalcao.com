@@ -42,4 +42,5 @@ params:
 
   analytics:
     umami:
-      SiteVerificationTag: d24005e5-dcfe-4705-95a9-af30ca480eff
+      id: d24005e5-dcfe-4705-95a9-af30ca480eff
+      script_url: https://cloud.umami.is/script.js
