@@ -20,12 +20,18 @@ params:
       Brazilian cybersecurity enthusiast sharing real-world hacking techniques, bug bounty strategies, and security research.
       Aka **busfactor**
 
+      🥈 **2nd place** at **Google BugSwat Mexico 2025**
+
+      🥇 **Best AI VRP Researcher** at **Google BugSwat Mexico 2025**
+
   profileMode:
     enabled: false
     title: Fixing stuff
     subtitle: I decided to take some time to fix my blog :)
 
   socialIcons:
+    - name: GoogleVRP
+      url: https://bughunters.google.com/profile/39986ec8-7346-44c9-8528-92b81880f69c
     - name: Intigriti
       url: https://app.intigriti.com/profile/egl
     - name: HackerOne
@@ -34,8 +40,6 @@ params:
       url: https://github.com/vitorfhc
     - name: Twitter
       url: https://twitter.com/busf4ctor
-    # - name: Medium
-    # url: https://vitorfalcao.medium.com/
     - name: LinkedIn
       url: https://www.linkedin.com/in/vitorfhc/
     - name: Email
