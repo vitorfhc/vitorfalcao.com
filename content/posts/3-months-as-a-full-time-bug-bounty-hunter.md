@@ -52,11 +52,11 @@ It turned out that two of the Google reports I had submitted weren't going to be
 
 Then, the bounties from the HackerOne program started coming in. It's hard to put into words what it felt like to receive my first bounties as a full-time hunter. The best part was that this single program paid out what amounted to three times my monthly goal. To top it off, while I was in Miami waiting for a connecting flight to DEF CON, I received another "Nice catch! 🎉" and a reward message as I stood in the customs line. I almost hugged the random guy behind me. It’s the typical bug bounty roller coaster of ups and downs that we love.
 
-At the end of the second month, I was on a fantastic motorhome trip around Banff, Canada, with my partner and a few friends. It's an amazing place, and it was great to be there while still seeing bounties hit the bank account. Then, I received an email inviting me to my first-ever Live Hacking Event: Google BugSwat Mexico.
+At the end of the second month, I was on a fantastic motorhome trip around Banff, Canada, with my partner and a few friends. It's an amazing place, and it was great to be there while still seeing bounties hit the bank account. Then, I received an email inviting me to my first-ever Live Hacking Event: Google bugSWAT Mexico.
 
 ![Banff](/img/3-months-as-a-full-time-bug-bounty-hunter/banff.png)
 
-## Month Three: The Google BugSwat
+## Month Three: The Google bugSWAT
 
 Getting invited to an LHE was one of my main goals, and I thought it would take at least a year to achieve. However, rhynorater nominated me, and I was accepted. I am very grateful to both of them for believing in me. So, it was time to get ready and hack Google.
 
