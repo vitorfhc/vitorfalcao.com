@@ -12,7 +12,7 @@ A few months ago, I made a huge decision that changed everything: I became a ful
 
 The hardest part of writing this post is finding the right balance between what I feel safe sharing and what I believe will be valuable to my readers (see the Venn diagram below). If there's anything you'd like to know more about, have any questions, or feel I've missed something, please send me a message.
 
-![Venn diagram of things I feel safe sharing versus things I believe people will find valuable](/img/venn.png)
+![Venn diagram of things I feel safe sharing versus things I believe people will find valuable](/img/3-months-as-a-full-time-bug-bounty-hunter/venn.png)
 
 
 ## From Building to Breaking
@@ -43,7 +43,7 @@ By the end of my second week, I had a few Google Cloud reports in the pipeline a
 
 However, I ended the first month with no bounties paid out. This is a common challenge for any full-time bug bounty hunter: a "triaged" status doesn't guarantee a payout. Even when a bug is confirmed, you often don't know the exact amount or the payment date. I believe this is why working with programs you trust and have experience with is so valuable. Although I had planned for this delay, handling the uncertainty still wasn't easy.
 
-![Google VRP Award: Crickets: Wait a month for the VRP panel decision](/img/crickets.png)
+![Google VRP Award: Crickets: Wait a month for the VRP panel decision](/img/3-months-as-a-full-time-bug-bounty-hunter/crickets.png)
 
 
 ## Month Two: Bounties Started Rolling In
@@ -54,7 +54,7 @@ Then, the bounties from the HackerOne program started coming in. It's hard to pu
 
 At the end of the second month, I was on a fantastic motorhome trip around Banff, Canada, with my partner and a few friends. It's an amazing place, and it was great to be there while still seeing bounties hit the bank account. Then, I received an email inviting me to my first-ever Live Hacking Event: Google BugSwat Mexico.
 
-![Banff](/img/banff.png)
+![Banff](/img/3-months-as-a-full-time-bug-bounty-hunter/banff.png)
 
 ## Month Three: The Google BugSwat
 
@@ -70,7 +70,7 @@ The event kicks off, we receive the scope, and we begin hacking. I decided to fo
 
 By the third or forth day, we noticed we were submitting one or two bugs per day, so we set a goal to report at least two daily until the end of the event. However, knowing this pace could quickly become unhealthy, we made sure to take breaks and cover for each other in the meantime, like when I took time off for my birthday. Whenever one of us took a break, the other would "lock in" to keep the momentum going. Also, even when one of us was away, it was fun to voice our thoughts and brainstorm on Discord. We had some great laughs about our "stupid" bug ideas that ended up being accepted.
 
-![My reaction after monke told me about one of his stupid ideas](/img/discord.png)
+![My reaction after monke told me about one of his stupid ideas](/img/3-months-as-a-full-time-bug-bounty-hunter/discord.png)
 
 We arrived in Mexico and had great days of on-site hacking. We met and collaborated with [Adnan](https://adnanthekhan.com/), ate amazing food, and chatted with the Googlers, who are all spectacular people. Overall, we had a lot of fun. We even managed to submit a few bug reports just ten minutes before the deadline. I also can't forget how badly jet lag affected me for days, so I had to drink a massive amount of coffee.
 
@@ -80,7 +80,7 @@ Later, at the wrap-up party, they started announcing the winners. When they were
 
 I was already quite happy when they began to announce the second-place overall winner, mentioning the 14 valid reports again. As it turned out, we had won second place as well! I was so happy to receive two awards at my very first LHE, which just goes to show what a roller coaster bug bounty is. It's full of ups and downs, but the thrill makes you want to get back on and do it all over again, no matter what.
 
-![Monke and I winning the 2nd place award](/img/award.png)
+![Monke and I winning the 2nd place award](/img/3-months-as-a-full-time-bug-bounty-hunter/award.png)
 
 ## We Keep Riding
 
