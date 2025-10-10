@@ -15,10 +15,9 @@ params:
 
   homeInfoParams:
     enabled: true
-    Title: "Bug Bounty Hunter & Security Researcher"
+    Title: "Full-Time Bug Bounty Hunter & Researcher"
     Content: |
-      Brazilian cybersecurity enthusiast sharing real-world hacking techniques, bug bounty strategies, and security research.
-      Aka **busfactor**
+      Known as **busfactor** in the security community.
 
       🥈 **2nd place** at **Google bugSWAT Mexico 2025**
 
